@@ -60,6 +60,7 @@ public class ESClient {
 
         if (!("".equals(user) || "".equals(passwd))) {
             httpClientConfig.defaultCredentials(user, passwd);
+            httpClientConfig.setPreemptiveAuth(new HttpHost(endpoint));
         }
 
         factory.setHttpClientConfig(httpClientConfig.build());

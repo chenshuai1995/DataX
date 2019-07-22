@@ -1,0 +1,58 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel":1
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "mysqlreader",
+          "parameter": {
+            "username": "root",
+            "password": "#3%899abh",
+            "connection": [
+              {
+                "querySql": [
+                  "select md5(concat(appid,userid)) as docId,userid userId,appid appId,channel,os,devicetype deviceType,brand,gender,nickname nickName,FROM_UNIXTIME(registtime) as registTime,inviterid inviterId from t_account;"
+                ],
+                "jdbcUrl": [
+                  "jdbc:mysql://122.228.96.41:3306/platform"
+                ]
+              }
+            ]
+          }
+        },
+        "writer": {
+          "name": "elasticsearchwriter",
+          "parameter": {
+            "endpoint": "http://node101:9200",
+            "accessId": "连接权限配置，如果不需要权限认证，可随意配置，但不能为空，或者不配",
+            "accessKey": "连接权限配置，如果不需要权限认证，可随意配置",
+            "index": "my_index",
+            "type": "_doc",
+            "cleanup": true,
+            "settings": {"index" :{"number_of_shards": 1, "number_of_replicas": 0}},
+            "discovery": false,
+            "batchSize": 1000,
+            "splitter": ",",
+            "column": [
+              {"name": "docId", "type": "id"},
+              {"name": "userId", "type": "keyword"},
+              { "name": "appId","type": "keyword" },
+              { "name": "channel","type": "keyword" },
+              { "name": "os","type": "keyword" },
+              { "name": "deviceType","type": "keyword" },
+              { "name": "brand", "type": "keyword" },
+              { "name": "gender", "type": "keyword"},
+              { "name": "nickName", "type": "text" },
+              { "name": "registTime", "type": "date"},
+              { "name": "inviterId", "type": "long" }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

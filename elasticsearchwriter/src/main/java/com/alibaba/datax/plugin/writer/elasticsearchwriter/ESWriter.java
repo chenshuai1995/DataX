@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.regex.Pattern;
 
 public class ESWriter extends Writer {
     private final static String WRITE_COLUMNS = "write_columns";
@@ -141,16 +142,14 @@ public class ESWriter extends Writer {
                             field.put("index_options", jo.getBoolean("index_options"));
                             break;
                         case DATE:
-                            columnItem.setTimeZone(jo.getString("timezone"));
-                            columnItem.setFormat(jo.getString("format"));
+//                            columnItem.setTimeZone(jo.getString("timezone"));
+//                            columnItem.setFormat(jo.getString("format"));
                             // 后面时间会处理为带时区的标准时间,所以不需要给ES指定格式
-                            /*
                             if (jo.getString("format") != null) {
                                 field.put("format", jo.getString("format"));
                             } else {
-                                //field.put("format", "strict_date_optional_time||epoch_millis||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd");
+                                field.put("format", "strict_date_optional_time||epoch_millis||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd");
                             }
-                            */
                             break;
                         case GEO_SHAPE:
                             field.put("tree", jo.getString("tree"));
@@ -302,8 +301,16 @@ public class ESWriter extends Writer {
                 date = formatter.withZone(dtz).parseDateTime(column.asString());
                 return date.toString();
             } else if (column.getType() == Column.Type.DATE) {
-                date = new DateTime(column.asLong(), dtz);
-                return date.toString();
+                // 1488102389000
+                // 1488102389
+//                Long timeStamp = column.asLong();
+//                if (column.asString().length() == 13) {
+//                    timeStamp = timeStamp / 1000;
+//                }
+//                date = new DateTime(timeStamp, dtz);
+//                DateTimeFormatter formatter = DateTimeFormat.forPattern(esColumn.getFormat());
+//                return formatter.print(date);
+                return column.asString();
             } else {
                 return column.asString();
             }
