@@ -11,14 +11,14 @@
           "name": "mysqlreader",
           "parameter": {
             "username": "root",
-            "password": "#3%899abh",
+            "password": "########",
             "connection": [
               {
                 "querySql": [
                   "select md5(concat(appid,userid)) as docId,userid userId,appid appId,channel,os,devicetype deviceType,brand,gender,nickname nickName,FROM_UNIXTIME(registtime) as registTime,inviterid inviterId from t_account;"
                 ],
                 "jdbcUrl": [
-                  "jdbc:mysql://122.228.96.41:3306/platform"
+                  "jdbc:mysql://########:3306/platform"
                 ]
               }
             ]
