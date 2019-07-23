@@ -10,15 +10,15 @@
         "reader": {
           "name": "mysqlreader",
           "parameter": {
-            "username": "root",
-            "password": "########",
+            "username": "xxxxxxxxxx",
+            "password": "xxxxxxxxxx",
             "connection": [
               {
                 "querySql": [
-                  "select md5(concat(appid,userid)) as docId,userid userId,appid appId,channel,os,devicetype deviceType,brand,gender,nickname nickName,FROM_UNIXTIME(registtime) as registTime,inviterid inviterId from t_account;"
+                  "select md5(concat(appid,userid)) as docId,userid userId,appid appId,channel,os,devicetype deviceType,brand,gender,nickname nickName,FROM_UNIXTIME(registtime) as registTime,inviterid inviterId, 'user' as docType from t_account;"
                 ],
                 "jdbcUrl": [
-                  "jdbc:mysql://########:3306/platform"
+                  "jdbc:mysql://xxxxxxxxxx:3306/platform"
                 ]
               }
             ]
@@ -27,12 +27,12 @@
         "writer": {
           "name": "elasticsearchwriter",
           "parameter": {
-            "endpoint": "http://node101:9200",
+            "endpoint": "http://node2:9200",
             "accessId": "连接权限配置，如果不需要权限认证，可随意配置，但不能为空，或者不配",
             "accessKey": "连接权限配置，如果不需要权限认证，可随意配置",
-            "index": "my_index",
+            "index": "my_user_index",
             "type": "_doc",
-            "cleanup": true,
+            "cleanup": false,
             "settings": {"index" :{"number_of_shards": 1, "number_of_replicas": 0}},
             "discovery": false,
             "batchSize": 1000,
@@ -48,7 +48,8 @@
               { "name": "gender", "type": "keyword"},
               { "name": "nickName", "type": "text" },
               { "name": "registTime", "type": "date"},
-              { "name": "inviterId", "type": "long" }
+              { "name": "inviterId", "type": "long" },
+              { "name": "docType", "type": "join", "relations": {"user": ["cycle", "drawinfo"] } }
             ]
           }
         }

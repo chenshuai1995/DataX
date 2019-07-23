@@ -154,6 +154,10 @@ public class ESWriter extends Writer {
                         case GEO_SHAPE:
                             field.put("tree", jo.getString("tree"));
                             field.put("precision", jo.getString("precision"));
+                        case JOIN:
+                            field.put("relations", jo.getString("relations"));
+                            columnItem.setRelations(jo.getString("relations"));
+                            break;
                         default:
                             break;
                     }
@@ -385,6 +389,9 @@ public class ESWriter extends Writer {
                             case OBJECT:
                             case GEO_SHAPE:
                                 data.put(columnName, JSON.parse(column.asString()));
+                                break;
+                            case JOIN:
+                                data.put(columnName, column.asString());
                                 break;
                             default:
                                 getTaskPluginCollector().collectDirtyRecord(record, "类型错误:不支持的类型:" + columnType + " " + columnName);

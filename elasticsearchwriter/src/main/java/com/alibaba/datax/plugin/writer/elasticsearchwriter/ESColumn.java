@@ -15,12 +15,22 @@ public class ESColumn {
 
     private Boolean array;
 
+    private String relations;
+
     public void setName(String name) {
         this.name = name;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getRelations() {
+        return relations;
+    }
+
+    public void setRelations(String relations) {
+        this.relations = relations;
     }
 
     public void setTimeZone(String timezone) {

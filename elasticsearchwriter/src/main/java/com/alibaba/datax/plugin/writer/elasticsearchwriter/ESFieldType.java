@@ -31,6 +31,7 @@ public enum ESFieldType {
 
     ARRAY,
     OBJECT,
+    JOIN,
     NESTED;
 
     public static ESFieldType getESFieldType(String type) {
